@@ -1,0 +1,42 @@
+name: Contact pipeline static checks
+
+on:
+  pull_request:
+    paths:
+      - 'Entities/Unit/Systems/FlowField/**'
+      - '.github/scripts/validate_contact_pipeline_audit.py'
+      - '.github/scripts/validate_contact_architecture.py'
+      - '.github/scripts/validate_contact_static_contracts.py'
+      - '.github/workflows/contact-pipeline-static-checks.yml'
+  push:
+    branches:
+      - Simulation
+      - 'codex/**'
+    paths:
+      - 'Entities/Unit/Systems/FlowField/**'
+      - '.github/scripts/validate_contact_pipeline_audit.py'
+      - '.github/scripts/validate_contact_architecture.py'
+      - '.github/scripts/validate_contact_static_contracts.py'
+      - '.github/workflows/contact-pipeline-static-checks.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  static-contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate authoritative architecture contracts
+        run: |
+          python3 .github/scripts/validate_contact_pipeline_audit.py
+          python3 .github/scripts/validate_contact_architecture.py
+      - name: Validate terminal source and ownership contracts
+        run: python3 .github/scripts/validate_contact_static_contracts.py
+
+  diagnostics-compile-boundaries:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate diagnostics compile boundaries
+        run: python3 .github/scripts/validate_contact_diagnostics.py

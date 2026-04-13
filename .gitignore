@@ -73,3 +73,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Local CodeGraph index (rebuilt by `codegraph init`)
+.codegraph/
+
+# macOS
+.DS_Store

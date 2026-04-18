@@ -79,3 +79,9 @@ crashlytics-build.properties
 
 # macOS
 .DS_Store
+
+# 本地 Markdown 文档：除根 README.md（及其 Unity meta）外，全部仅本地保留
+*.md
+!/README.md
+*.md.meta
+!/README.md.meta

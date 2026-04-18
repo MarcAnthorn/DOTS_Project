@@ -85,3 +85,6 @@ crashlytics-build.properties
 !/README.md
 *.md.meta
 !/README.md.meta
+
+# 本地演示媒体：README 不再展示，文件保留在磁盘但不入库
+.github/assets/

@@ -3,7 +3,6 @@
 ![Unity](https://img.shields.io/badge/Unity-2022.3%2B-black)
 ![DOTS](https://img.shields.io/badge/Tech-ECS%20%7C%20Jobs%20%7C%20Burst-blue)
 ![NetCode](https://img.shields.io/badge/Network-NetCode%20for%20Entities-green)
-![License](https://img.shields.io/badge/License-MIT-yellow)
 
 基于 **Unity DOTS**（ECS + Jobs + Burst）的大规模 RTS 群体模拟系统。以 RTS 高密度单位移动作为压力测试场景，自下而上实现从玩法指令到物理求解的完整管线：
 

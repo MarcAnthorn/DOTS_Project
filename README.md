@@ -293,7 +293,6 @@
 | `scripts/validate_contact_pipeline_audit.py` | 禁止 aggregate bag、调度器不可实现算法 |
 | `scripts/validate_contact_static_contracts.py` | 步身份不可从缓存推导、Oracle 不写游戏状态 |
 | `workflows/*.yml` | 三条 CI 工作流 |
-| `assets/readme/*.gif` | README 演示资源 |
 
 根目录 `analyze_contact_diagnostic_trends.py` 用于接触诊断 CSV 趋势分析。
 
@@ -370,9 +369,7 @@ BaseFlowMovementSystem（组合根，每帧）
 
 性能提升并非通过减少接触约束换取：平均接触 Pair 从 **596** 增至 **721**，平均活跃 Pair 从 **543** 增至 **672**。
 
-**5k 单位同屏运行：**
-
-<img src=".github/assets/readme/5k-flowfield-movement.gif" alt="5k 单位流场移动演示"/>
+**5k 单位同屏运行：** 演示动画仅保存在本地，不纳入版本控制。
 
 ---
 

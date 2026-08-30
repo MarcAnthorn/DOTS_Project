@@ -18,23 +18,23 @@
 
 | 编号 | 模块路径 | 职能 | 详细章节 |
 |---|---|---|---|
-| M1 | `Entities/Unit/Systems/FlowField/` | 核心群体模拟：流场寻路、增量接触管线、软避让、XPBD 求解、诊断 | [§2](#2-核心群体模拟模块-m1) |
-| M2 | `Entities/Unit/Components/`、`Entities/Unit/Authoring/` | 单位组件契约与 Authoring 烘焙 | [§3](#3-单位组件与-authoring-m2) |
-| M3 | `Entities/Unit/Systems/`（非 FlowField） | 单位初始化、选择、血条等生命周期系统 | [§4](#4-单位辅助系统-m3) |
-| M4 | `Entities/Building/` | 建筑组件、RPC 与 Authoring | [§5](#5-建筑模块-m4) |
-| M5 | `Entities/Camera/` | 主相机组件与初始化 | [§6](#6-相机模块-m5) |
-| M6 | `Entities/_Common/` | 通用玩法系统：攻击、伤害、销毁、追踪、技能移动、RPC 生成 | [§7](#7-通用玩法系统-m6) |
-| M7 | `Entities/_RePlay/` | 事件溯源录制与回放 | [§8](#8-回放模块-m7) |
-| M8 | `NetWorkInitialize/` | NetCode 客户端/服务端、RPC、连接与入队 | [§9](#9-网络模块-m8) |
-| M9 | `_PlayerInput/` | 输入状态机与右键移动指令 | [§10](#10-输入模块-m9) |
-| M10 | `_QFrameWork/` | QFramework 风格 UI/建造/经济框架 | [§11](#11-框架模块-m10) |
-| M11 | 根目录脚本 + `Utils/` | 架构入口、服务定位器、调试工具 | [§12](#12-根目录脚本与工具-m11) |
-| M12 | `.github/` + 根目录分析脚本 | CI 静态合约与基准分析 | [§13](#13-ci-与工具链-m12) |
-| M13 | 根目录文档 | 实验计划、交接文档、面试与概念手册 | [§14](#14-文档索引) |
+| M1 | `Scripts/Core/Movement/` | 核心群体模拟：流场寻路、增量接触管线、软避让、XPBD 求解、诊断 | [§2](#2-核心群体模拟模块-m1) |
+| M2 | `Scripts/Core/Units/Components/`、`Scripts/Core/Units/Authoring/` | 单位组件契约与 Authoring 烘焙 | [§3](#3-单位组件与-authoring-m2) |
+| M3 | `Scripts/Core/Units/Systems/`（非 Movement） | 单位初始化、选择、血条等生命周期系统 | [§4](#4-单位辅助系统-m3) |
+| M4 | `Scripts/Core/Buildings/` | 建筑组件、RPC 与 Authoring | [§5](#5-建筑模块-m4) |
+| M5 | `Scripts/Core/Cameras/` | 主相机组件与初始化 | [§6](#6-相机模块-m5) |
+| M6 | `Scripts/Core/Common/` | 通用玩法系统：攻击、伤害、销毁、追踪、技能移动、RPC 生成 | [§7](#7-通用玩法系统-m6) |
+| M7 | `Scripts/Core/Replay/` | 事件溯源录制与回放 | [§8](#8-回放模块-m7) |
+| M8 | `Scripts/Networking/` | NetCode 客户端/服务端、RPC、连接与入队 | [§9](#9-网络模块-m8) |
+| M9 | `Scripts/Input/` | 输入状态机与右键移动指令 | [§10](#10-输入模块-m9) |
+| M10 | `Scripts/Framework/` | QFramework 风格 UI/建造/经济框架 | [§11](#11-框架模块-m10) |
+| M11 | `Scripts/Entry/` + `Scripts/Utilities/` | 架构入口、服务定位器、调试工具 | [§12](#12-入口脚本与工具-m11) |
+| M12 | `.github/` + `Tools/Analysis/` | CI 静态合约与基准分析 | [§13](#13-ci-与工具链-m12) |
+| M13 | 根目录本地文档 | 实验计划、交接文档、面试与概念手册（仅本地保存） | [§14](#14-本地文档索引) |
 
 **技术架构与核心机制**：[§15 技术架构](#15-技术架构) ｜ [§16 性能数据](#16-性能数据) ｜ [§17 诊断工具](#17-诊断工具) ｜ [§18 CI 静态合约](#18-ci-静态合约) ｜ [§19 已知限制](#19-已知限制)
 
-> 概念速查：不熟悉 ECS / 流场 / 增量接触 / XPBD / 证书 / 组合根等概念的，先读根目录 [TECHNICAL_CONCEPTS_GUIDE.md](./TECHNICAL_CONCEPTS_GUIDE.md)；面试准备看 [INTERVIEW_TECHNICAL_QA.md](./INTERVIEW_TECHNICAL_QA.md)。
+> 概念速查：ECS / 流场 / 增量接触 / XPBD / 证书 / 组合根等概念的详解手册与面试问答文档仅保存在本地工作区，未纳入版本控制（见 §14）。
 
 ---
 
@@ -53,17 +53,16 @@
 
 ```text
 .
-├── Entities/                  # 全部 ECS 业务（单位/建筑/相机/通用/回放）
-├── NetWorkInitialize/         # NetCode 网络初始化与 RPC
-├── _PlayerInput/              # 输入状态机与指令
-├── _QFrameWork/               # QFramework 风格 UI / 建造 / 经济框架
-├── Utils/                     # 通用调试工具
+├── Scripts/                   # 全部业务脚本
+│   ├── Core/                  # Units / Movement / Buildings / Cameras / Common / Replay
+│   ├── Networking/            # NetCode 网络初始化与 RPC
+│   ├── Input/                 # 输入状态机与指令
+│   ├── Framework/             # QFramework 风格 UI / 建造 / 经济框架
+│   ├── Utilities/             # 通用调试工具
+│   └── Entry/                 # 架构入口、服务定位器与帧率显示
+├── Tools/Analysis/            # 诊断 CSV 趋势分析脚本
 ├── .github/                   # CI 静态合约脚本与工作流
-├── MainGameArchitecture.cs    # 架构组合入口
-├── SystemServiceLocator.cs    # ECS System 服务定位器
-├── ServerObjectSystem.cs      # MonoBehaviour 服务定位器
-├── FpsDisplay.cs              # 帧率显示
-└── *.md                       # 技术文档（见 §14）
+└── README.md                  # 项目总入口（其余 *.md 仅本地保存）
 ```
 
 ---

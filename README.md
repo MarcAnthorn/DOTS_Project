@@ -299,16 +299,18 @@
 
 ---
 
-## 14. 文档索引
+## 14. 本地文档索引
 
-| 文档 | 内容 |
+以下技术文档仅保存在本地工作区，未纳入版本控制；其内容随源码重构同步更新：
+
+| 本地文档 | 内容 |
 |---|---|
-| [TECHNICAL_CONCEPTS_GUIDE.md](./TECHNICAL_CONCEPTS_GUIDE.md) | 全部技术概念从零详解（概念 → 为什么 → 项目落地） |
-| [INTERVIEW_TECHNICAL_QA.md](./INTERVIEW_TECHNICAL_QA.md) | 求职面试技术问答手册 |
-| [Entities/Unit/Systems/FlowField/Runtime/ContactPipeline/ARCHITECTURE.md](./Entities/Unit/Systems/FlowField/Runtime/ContactPipeline/ARCHITECTURE.md) | 接触管线架构与不变式 |
-| [Entities/Unit/Systems/FlowField/Runtime/ContactPipeline/DEBT.md](./Entities/Unit/Systems/FlowField/Runtime/ContactPipeline/DEBT.md) | 已知技术债 |
-| [Entities/Unit/Systems/FlowField/Diagnostics/README.md](./Entities/Unit/Systems/FlowField/Diagnostics/README.md) | 诊断工具说明 |
-| [Entities/Unit/Systems/FlowField/Diagnostics/VERIFICATION_MATRIX.md](./Entities/Unit/Systems/FlowField/Diagnostics/VERIFICATION_MATRIX.md) | 验证矩阵 |
+| `TECHNICAL_CONCEPTS_GUIDE.md` | 全部技术概念从零详解（概念 → 为什么 → 项目落地） |
+| `INTERVIEW_TECHNICAL_QA.md` | 求职面试技术问答手册 |
+| `Scripts/Core/Movement/Pipeline/ARCHITECTURE.md` | 接触管线架构与不变式 |
+| `Scripts/Core/Movement/Pipeline/DEBT.md` | 已知技术债 |
+| `Scripts/Core/Movement/Diagnostics/README.md` | 诊断工具说明 |
+| `Scripts/Core/Movement/Diagnostics/VERIFICATION_MATRIX.md` | 验证矩阵 |
 | `DYNAMIC_CONTACT_FRAMEWORK_EXPERIMENT_PLAN.md` | 动态接触框架实验计划 |
 | `FAT_AABB_CACHE_TASK_HANDOFF.md` | Fat AABB 缓存任务交接 |
 | `INCREMENTAL_PREDICTIVE_CONTACT_PIPELINE.md` | 增量预测接触管线设计 |

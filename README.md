@@ -2,7 +2,6 @@
 
 ![Unity](https://img.shields.io/badge/Unity-2022.3%2B-black)
 ![DOTS](https://img.shields.io/badge/Tech-ECS%20%7C%20Jobs%20%7C%20Burst-blue)
-![NetCode](https://img.shields.io/badge/Network-NetCode%20for%20Entities-green)
 
 基于 **Unity DOTS**（ECS + Jobs + Burst）的大规模 RTS 群体模拟系统。以 RTS 高密度单位移动作为压力测试场景，自下而上实现从玩法指令到物理求解的完整管线：
 
@@ -21,20 +20,19 @@
 | M1 | `Scripts/Core/Movement/` | 核心群体模拟：流场寻路、增量接触管线、软避让、XPBD 求解、诊断 | [§2](#2-核心群体模拟模块-m1) |
 | M2 | `Scripts/Core/Units/Components/`、`Scripts/Core/Units/Authoring/` | 单位组件契约与 Authoring 烘焙 | [§3](#3-单位组件与-authoring-m2) |
 | M3 | `Scripts/Core/Units/Systems/`（非 Movement） | 单位初始化、选择、血条等生命周期系统 | [§4](#4-单位辅助系统-m3) |
-| M4 | `Scripts/Core/Buildings/` | 建筑组件、RPC 与 Authoring | [§5](#5-建筑模块-m4) |
+| M4 | `Scripts/Core/Buildings/` | 建筑组件、建筑类型与 Authoring | [§5](#5-建筑模块-m4) |
 | M5 | `Scripts/Core/Cameras/` | 主相机组件与初始化 | [§6](#6-相机模块-m5) |
-| M6 | `Scripts/Core/Common/` | 通用玩法系统：攻击、伤害、销毁、追踪、技能移动、RPC 生成 | [§7](#7-通用玩法系统-m6) |
-| M7 | `Scripts/Core/Replay/` | 事件溯源录制与回放 | [§8](#8-回放模块-m7) |
-| M8 | `Scripts/Networking/` | NetCode 客户端/服务端、RPC、连接与入队 | [§9](#9-网络模块-m8) |
-| M9 | `Scripts/Input/` | 输入状态机与右键移动指令 | [§10](#10-输入模块-m9) |
-| M10 | `Scripts/Framework/` | QFramework 风格 UI/建造/经济框架 | [§11](#11-框架模块-m10) |
-| M11 | `Scripts/Entry/` + `Scripts/Utilities/` | 架构入口、服务定位器、调试工具 | [§12](#12-入口脚本与工具-m11) |
-| M12 | `.github/` + `Tools/Analysis/` | CI 静态合约与基准分析 | [§13](#13-ci-与工具链-m12) |
-| M13 | 根目录本地文档 | 实验计划、交接文档、面试与概念手册（仅本地保存） | [§14](#14-本地文档索引) |
+| M6 | `Scripts/Core/Common/` | 通用玩法系统：攻击、伤害、销毁、追踪、技能移动 | [§7](#7-通用玩法系统-m6) |
+| M7 | `Scripts/Core/Replay/` | 回放指令与状态数据契约、Authoring（执行逻辑仅本地保留） | [§8](#8-回放模块-m7) |
+| M8 | `Scripts/Input/` | 输入状态机与右键移动指令 | [§9](#9-输入模块-m8) |
+| M9 | `Scripts/Framework/` | QFramework 风格 UI/建造/经济框架 | [§10](#10-框架模块-m9) |
+| M10 | `Scripts/Entry/` + `Scripts/Utilities/` | 架构入口、服务定位器、调试工具 | [§11](#11-入口脚本与工具-m10) |
+| M11 | `.github/` + `Tools/Analysis/` | CI 静态合约与基准分析 | [§12](#12-ci-与工具链-m11) |
+| M12 | 根目录本地文档 | 实验计划、交接文档、技术概念手册（仅本地保存） | [§13](#13-本地文档索引) |
 
-**技术架构与核心机制**：[§15 技术架构](#15-技术架构) ｜ [§16 性能数据](#16-性能数据) ｜ [§17 诊断工具](#17-诊断工具) ｜ [§18 CI 静态合约](#18-ci-静态合约) ｜ [§19 已知限制](#19-已知限制)
+**技术架构与核心机制**：[§14 技术架构](#14-技术架构) ｜ [§15 性能数据](#15-性能数据) ｜ [§16 诊断工具](#16-诊断工具) ｜ [§17 CI 静态合约](#17-ci-静态合约) ｜ [§18 已知限制](#18-已知限制)
 
-> 概念速查：ECS / 流场 / 增量接触 / XPBD / 证书 / 组合根等概念的详解手册与面试问答文档仅保存在本地工作区，未纳入版本控制（见 §14）。
+> 概念速查：ECS / 流场 / 增量接触 / XPBD / 证书 / 组合根等概念的详解手册仅保存在本地工作区，未纳入版本控制（见 §13）。
 
 ---
 
@@ -46,8 +44,6 @@
 2. **增量预测接触管线**：跨帧持久候选 + 脏体增量修补 + `InteractionCertificate` 证书签发，O(N²) Oracle 验证不漏报。
 3. **Timestep Contact Set 缓存**：首个子步完成分类后跨子步复用；包络逃逸时增量修复，脏比例超阈值回退全量重建。
 4. **XPBD + 软避让**：Surface Velocity Buffer / RVO 两种软避让模式；XPBD 位置投影（Gauss-Seidel 串行参考 + Jacobi 并行实现）；基于流场格阻挡的软墙/硬墙约束。
-5. **事件溯源回放**：只录制输入指令（Command Buffer），零快照，毫秒级状态重置与指令重演（`L` 录制 / `R` 回放）。
-6. **混合式网络架构**：Unity NetCode for Entities，服务端权威 + 客户端预测；联网与本地模式共享同一 `BaseFlowMovementSystem` 调度逻辑。
 
 ### 顶层目录总览
 
@@ -55,7 +51,6 @@
 .
 ├── Scripts/                   # 全部业务脚本
 │   ├── Core/                  # Units / Movement / Buildings / Cameras / Common / Replay
-│   ├── Networking/            # NetCode 网络初始化与 RPC
 │   ├── Input/                 # 输入状态机与指令
 │   ├── Framework/             # QFramework 风格 UI / 建造 / 经济框架
 │   ├── Utilities/             # 通用调试工具
@@ -79,14 +74,12 @@
 |---|---|
 | `BaseFlowMovementSystem.cs` | 唯一组合根：阶段顺序、资源生命周期、JobHandle 依赖、串行/并行路径选择；不实现任何算法 |
 | `LocalUnitFlowMovementSystem.cs` | 本地模式入口（要求 `LocalInstance`），继承 `BaseFlowMovementSystem` |
-| `NetCodeUnitFlowMovementSystem.cs` | 联网模式入口（要求 `NetworkStreamInGame`），继承同一组合根 |
 
 ### 2.2 指令、编队与目标分配
 
 | 脚本 | 职能 |
 |---|---|
 | `RtsCommandSystem.cs` | 消费 `MoveOrder`：选中快照排序、生成目标槽位、按原队形分配 `UnitMoveDestination`、触发流场重烘焙 |
-| `MoveOrderReceiveSystem.cs` | 服务端接收 `RequestMoveOrderRPC`，写入 `MoveOrder` |
 | `Utility/MoveDestinationSlotUtility.cs` | 目标点周围可行走槽位生成 + 保队形贪心分配（仅订单时执行） |
 | `Utility/FlowFieldUtility.cs` | 世界坐标 ↔ 格子坐标、一维下标、8 方向偏移等纯函数 |
 
@@ -150,11 +143,10 @@
 
 | 脚本 | 职能 |
 |---|---|
-| `Components/BasicUnitComponents.cs` | 单位核心组件：`BasicUnitTag`、`UnitMoveSpeed`、`UnitSelected`、`Velocity`、`UnitMoveDestination`、`FlowArrivalState`（Ghost 预测）、`UnitContactBody`（XPBD 逆质量）等 |
+| `Components/BasicUnitComponents.cs` | 单位核心组件：`BasicUnitTag`、`UnitMoveSpeed`、`UnitSelected`、`Velocity`、`UnitMoveDestination`、`FlowArrivalState`、`UnitContactBody`（XPBD 逆质量）等 |
 | `Movement/Components/FlowField/GridComponent.cs` | 流场网格、设置、运行时状态、Cost 状态、空间映射等组件契约 |
 | `Movement/Components/FlowField/ShadowNeighborCacheTypes.cs` | 阴影邻居缓存类型 |
 | `Components/AttackAspect.cs` | 攻击 Aspect 组合视图 |
-| `Components/UnitRpcs.cs` | 单位相关 RPC 契约 |
 | `Authoring/BasicUnitAuthoring.cs` | 单位 Prefab Authoring 烘焙 |
 | `Authoring/RtsUnitPrefabsAuthoring.cs` | 单位 Prefab 集合引用 |
 | `Authoring/FlowField/FlowFieldManagerAuthoring.cs` | 流场管理器配置烘焙 |
@@ -167,7 +159,7 @@
 
 | 子系统 | 脚本路径范围 | 职能 |
 |---|---|---|
-| 初始化 | `Initialization/InitializeUnitSystem.cs`、`Initialization/UnitCreateInServerSystem.cs` | 单位实体初始化、服务端单位生成 |
+| 初始化 | `Initialization/InitializeUnitSystem.cs` | 单位实体初始化 |
 | 选择 | `Selection/UnitSelectedSystem.cs`、`Selection/SelectedTagStateSwitchSystem.cs`、`Selection/SelectedTagAuthoring.cs` | 选中状态维护与标签切换 |
 | 血条 | `HealthBar/CreateHealBarSystem.cs` | 单位血条实体创建 |
 
@@ -180,7 +172,7 @@
 | 脚本 | 职能 |
 |---|---|
 | `BasicBuildingComponents.cs` | 建筑基础组件契约 |
-| `BuildingRpcs.cs` | 建筑相关 RPC |
+| `BuildingTypes.cs` | 建筑类型枚举 |
 | `Authoring/BuildingAuthoring.cs` | 通用建筑 Authoring |
 | `Authoring/BarracksAuthoring.cs` | 兵营建筑 Authoring |
 | `Authoring/BarracksPerfabAuthoring.cs` | 兵营 Prefab Authoring |
@@ -205,14 +197,12 @@
 
 | 子系统 | 脚本路径范围 | 职能 |
 |---|---|---|
-| 生成 RPC | `SpawnEntityRpc/ICreateEntityRpc.cs`、`SpawnEntityRpc/CreateBaseUnitRpc.cs` | 服务端生成单位 RPC 抽象与实现 |
 | 技能移动 | `Systems/AbilityMove/` | 技能位移组件、Authoring、系统 |
 | 攻击 | `Systems/Attack/` | 攻击组件、触发、攻击执行 |
 | 碰撞伤害 | `Systems/DamageOnTrigger/` | Trigger 伤害组件、Authoring、系统 |
 | 销毁 | `Systems/Destroy/` | 定时销毁、实体销毁、初始化销毁 |
 | 生命值 | `Systems/HealPoint/` | 伤害组件、每帧伤害计算、伤害应用、血点 Authoring |
 | 追踪 | `Systems/Track/` | 追踪组件、Authoring、触发系统 |
-| 辅助 | `ClientHelpSystem.cs`、`Json/JsonConverter.cs` | 客户端辅助与 JSON 转换 |
 
 ---
 
@@ -225,51 +215,35 @@
 | `Foundation/LocalInstance.cs` | 本地模式标记组件 |
 | `Foundation/PlayerInputCommand.cs` | 输入指令类型枚举 |
 | `Runtime/ReplaySchema.cs` | `ReplayCommandElement`（指令缓冲）与 `ReplaySystemState`（录制/回放状态） |
-| `Runtime/RequestCommandRpcSystem.cs` | 发送输入 RPC 并顺带录制回放指令 |
-| `Runtime/CommandReplayingSystem.cs` | 回放执行：清场、重置流场、按时间戳用 ECB 重放指令 |
 | `Runtime/ReplayAuthoring.cs` | 回放系统 Authoring |
-| `Runtime/RTSUnitSpawner.cs` | 回放单位生成器 |
 
 ---
 
-## 9. 网络模块 M8
-
-路径：`Scripts/Networking/`
-
-| 分区 | 脚本路径范围 | 职能 |
-|---|---|---|
-| Client | `Client/ClientConnectManager.cs`、`Client/ClientRequestGameEntrySystem.cs` | 客户端连接管理与入队请求 |
-| Common | `Common/TeamType.cs`、`Common/RpcComponents.cs`、`Common/ClientComponents.cs`、`Common/RtsPrefabs.cs` | 队伍类型、RPC 契约、客户端组件、Prefab 集合 |
-| Helps | `Helps/LoadConnectionSceneSystem.cs` | 连接场景加载 |
-| Server | `Server/ServerProcessGameEntityRequestSystem.cs` | 服务端处理游戏实体请求 |
-
----
-
-## 10. 输入模块 M9
+## 9. 输入模块 M8
 
 路径：`Scripts/Input/`
 
 | 脚本 | 职能 |
 |---|---|
-| `UnitControl/UnitMoveInputSystem.cs` | 右键射线 → 选中单位快照 → `MoveOrder` + RPC 发送 |
+| `UnitControl/UnitMoveInputSystem.cs` | 右键射线 → 选中单位快照 → 写入 `MoveOrder` |
 | `InputStateSwitchSystem.cs` | 输入状态切换 |
 | `Events/EnterControlStateEvent.cs`、`Events/EnterBuildingStateEvent.cs` | 控制/建造状态切换事件 |
 
 ---
 
-## 11. 框架模块 M10
+## 10. 框架模块 M9
 
 路径：`Scripts/Framework/`
 
 | 分区 | 脚本路径范围 | 职能 |
 |---|---|---|
 | BuildingManagement | `BuildingManagement/Base/`、`Buildings/`、`Commands/`、`Services/`、`Utils/`、`_Controllers/` | 建造数据模型、建筑实现、建造命令、网格管理、建造工具与服务 |
-| UISystem | `UISystem/EcoUI/`、`UISystem/MapUI/`、`UISystem/HpUI/`、`UISystem/Editor/`、`UISystem/BasicBuildUIController.cs`、`UISystem/CameraController.cs`、`UISystem/RTSSelectionManager.cs` | 经济 UI、地图 UI、血条 UI、相机控制、RTS 选择管理 |
+| UISystem | `UISystem/EcoUI/`、`UISystem/MapUI/`、`UISystem/HpUI/`、`UISystem/Editor/`、`UISystem/CameraController.cs`、`UISystem/RTSSelectionManager.cs` | 经济 UI、地图 UI、血条 UI、相机控制、RTS 选择管理 |
 | CommonUtils | `CommonUtils/CoroutineManager.cs` | 协程管理器 |
 
 ---
 
-## 12. 入口脚本与工具 M11
+## 11. 入口脚本与工具 M10
 
 路径：`Scripts/Entry/`、`Scripts/Utilities/`
 
@@ -283,7 +257,7 @@
 
 ---
 
-## 13. CI 与工具链 M12
+## 12. CI 与工具链 M11
 
 路径：`.github/`
 
@@ -299,14 +273,13 @@
 
 ---
 
-## 14. 本地文档索引
+## 13. 本地文档索引
 
 以下技术文档仅保存在本地工作区，未纳入版本控制；其内容随源码重构同步更新：
 
 | 本地文档 | 内容 |
 |---|---|
 | `TECHNICAL_CONCEPTS_GUIDE.md` | 全部技术概念从零详解（概念 → 为什么 → 项目落地） |
-| `INTERVIEW_TECHNICAL_QA.md` | 求职面试技术问答手册 |
 | `Scripts/Core/Movement/Pipeline/ARCHITECTURE.md` | 接触管线架构与不变式 |
 | `Scripts/Core/Movement/Pipeline/DEBT.md` | 已知技术债 |
 | `Scripts/Core/Movement/Diagnostics/README.md` | 诊断工具说明 |
@@ -320,7 +293,7 @@
 
 ---
 
-## 15. 技术架构
+## 14. 技术架构
 
 ### 数据流
 
@@ -357,7 +330,7 @@ BaseFlowMovementSystem（组合根，每帧）
 
 ---
 
-## 16. 性能数据
+## 15. 性能数据
 
 **1k 单位 — Substep 缓存关闭 / 开启对比：**
 
@@ -376,7 +349,7 @@ BaseFlowMovementSystem（组合根，每帧）
 
 ---
 
-## 17. 诊断工具
+## 16. 诊断工具
 
 | 工具 | 入口 | 功能 |
 |------|------|------|
@@ -386,13 +359,12 @@ BaseFlowMovementSystem（组合根，每帧）
 | **Incremental Contact Benchmark Tuner** | `RTS/Diagnostics/Incremental Contact Benchmark Tuner` | 自动参数搜索 + CSV 对比 |
 | **Incremental Contact Pipeline** | `RTS/Diagnostics/Incremental Contact Pipeline` | 增量管线指标实时监控 |
 | **Select Build Settings** | `RTS/Diagnostics/Select Build Settings` | 切换 `RTS_CONTACT_DIAGNOSTICS` 编译开关 |
-| **Local Gameplay Mode Validation** | `RTS/Validation/Local Gameplay Mode` | 本地模式功能验证 |
 
 `RTS_CONTACT_DIAGNOSTICS` 关闭时所有诊断路径由预处理器移除；仿真正确性不受影响。
 
 ---
 
-## 18. CI 静态合约
+## 17. CI 静态合约
 
 `.github/workflows/` 三条工作流在每次 push 时执行四份静态检查：
 
@@ -407,7 +379,7 @@ CI 不替代 Unity Editor 编译、Burst 编译、Collections Safety 和运行�
 
 ---
 
-## 19. 已知限制
+## 18. 已知限制
 
 - Contact Island 休眠未实现——持续活跃接触始终参与求解；
 - Gauss-Seidel 无并行路径（需图着色或冲突无关批次）；

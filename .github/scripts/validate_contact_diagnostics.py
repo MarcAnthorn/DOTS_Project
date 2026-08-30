@@ -1,8 +1,8 @@
 from pathlib import Path
 import re
 
-FLOW = Path("Entities/Unit/Systems/FlowField")
-PIPE = FLOW / "Runtime/ContactPipeline"
+FLOW = Path("Scripts/Core/Movement")
+PIPE = FLOW / "Pipeline"
 
 
 def fail(message: str) -> None:

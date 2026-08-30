@@ -381,7 +381,7 @@ BaseFlowMovementSystem（组合根，每帧）
 | 工具 | 入口 | 功能 |
 |------|------|------|
 | **SimulationDebuggerPanel** | `F8` 开关 | IMGUI 面板：概况 / 接触分类 / 增量统计 / 运行时参数覆盖 |
-| **CSV 录制** | `F6` 开始/停止，`F7` 重置录制 | 按帧输出接触统计 CSV |
+| **CSV 录制** | `F6` 手动开始/停止，`F7` 自动记录 10 秒 | 按帧输出接触统计 CSV |
 | **Validate Incremental Predictive Contact Pipeline** | `RTS/Diagnostics/Validate…` | 增量管线合规验证 |
 | **Incremental Contact Benchmark Tuner** | `RTS/Diagnostics/Incremental Contact Benchmark Tuner` | 自动参数搜索 + CSV 对比 |
 | **Incremental Contact Pipeline** | `RTS/Diagnostics/Incremental Contact Pipeline` | 增量管线指标实时监控 |

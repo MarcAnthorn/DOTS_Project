@@ -3,7 +3,7 @@ name: Contact pipeline audit contracts
 on:
   pull_request:
     paths:
-      - 'Entities/Unit/Systems/FlowField/**'
+      - 'Scripts/Core/Movement/**'
       - '.github/scripts/**'
       - '.github/workflows/contact-pipeline-audit-contracts.yml'
   push:
@@ -11,7 +11,7 @@ on:
       - Simulation
       - 'codex/**'
     paths:
-      - 'Entities/Unit/Systems/FlowField/**'
+      - 'Scripts/Core/Movement/**'
       - '.github/scripts/**'
       - '.github/workflows/contact-pipeline-audit-contracts.yml'
 

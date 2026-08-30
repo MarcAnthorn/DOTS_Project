@@ -3,7 +3,7 @@ name: Contact architecture contracts
 on:
   pull_request:
     paths:
-      - 'Entities/Unit/Systems/FlowField/**'
+      - 'Scripts/Core/Movement/**'
       - '.github/scripts/validate_contact_architecture.py'
       - '.github/workflows/contact-architecture-contracts.yml'
   push:
@@ -11,7 +11,7 @@ on:
       - Simulation
       - codex/simulation-integration
     paths:
-      - 'Entities/Unit/Systems/FlowField/**'
+      - 'Scripts/Core/Movement/**'
       - '.github/scripts/validate_contact_architecture.py'
       - '.github/workflows/contact-architecture-contracts.yml'
   workflow_dispatch:

@@ -3,7 +3,7 @@ name: Contact pipeline static checks
 on:
   pull_request:
     paths:
-      - 'Entities/Unit/Systems/FlowField/**'
+      - 'Scripts/Core/Movement/**'
       - '.github/scripts/validate_contact_pipeline_audit.py'
       - '.github/scripts/validate_contact_architecture.py'
       - '.github/scripts/validate_contact_static_contracts.py'
@@ -13,7 +13,7 @@ on:
       - Simulation
       - 'codex/**'
     paths:
-      - 'Entities/Unit/Systems/FlowField/**'
+      - 'Scripts/Core/Movement/**'
       - '.github/scripts/validate_contact_pipeline_audit.py'
       - '.github/scripts/validate_contact_architecture.py'
       - '.github/scripts/validate_contact_static_contracts.py'

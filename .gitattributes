@@ -1,2 +1,14 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Unity sources and metadata: normalize to LF
+*.cs text eol=lf
+*.cs.meta text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+
+# Binary assets: never normalize
+*.gif binary
+*.png binary
+*.jpg binary

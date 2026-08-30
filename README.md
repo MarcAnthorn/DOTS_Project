@@ -146,13 +146,13 @@
 
 ## 3. 单位组件与 Authoring M2
 
-路径：`Entities/Unit/Components/`、`Entities/Unit/Authoring/`
+路径：`Scripts/Core/Units/Components/`、`Scripts/Core/Units/Authoring/`
 
 | 脚本 | 职能 |
 |---|---|
 | `Components/BasicUnitComponents.cs` | 单位核心组件：`BasicUnitTag`、`UnitMoveSpeed`、`UnitSelected`、`Velocity`、`UnitMoveDestination`、`FlowArrivalState`（Ghost 预测）、`UnitContactBody`（XPBD 逆质量）等 |
-| `Components/FlowField/GridComponent.cs` | 流场网格、设置、运行时状态、Cost 状态、空间映射等组件契约 |
-| `Components/FlowField/ShadowNeighborCacheTypes.cs` | 阴影邻居缓存类型 |
+| `Movement/Components/FlowField/GridComponent.cs` | 流场网格、设置、运行时状态、Cost 状态、空间映射等组件契约 |
+| `Movement/Components/FlowField/ShadowNeighborCacheTypes.cs` | 阴影邻居缓存类型 |
 | `Components/AttackAspect.cs` | 攻击 Aspect 组合视图 |
 | `Components/UnitRpcs.cs` | 单位相关 RPC 契约 |
 | `Authoring/BasicUnitAuthoring.cs` | 单位 Prefab Authoring 烘焙 |
@@ -163,7 +163,7 @@
 
 ## 4. 单位辅助系统 M3
 
-路径：`Entities/Unit/Systems/`（不含 FlowField）
+路径：`Scripts/Core/Units/Systems/`（不含 Movement）
 
 | 子系统 | 脚本路径范围 | 职能 |
 |---|---|---|
@@ -175,7 +175,7 @@
 
 ## 5. 建筑模块 M4
 
-路径：`Entities/Building/`
+路径：`Scripts/Core/Buildings/`
 
 | 脚本 | 职能 |
 |---|---|
@@ -189,7 +189,7 @@
 
 ## 6. 相机模块 M5
 
-路径：`Entities/Camera/`
+路径：`Scripts/Core/Cameras/`
 
 | 脚本 | 职能 |
 |---|---|
@@ -201,7 +201,7 @@
 
 ## 7. 通用玩法系统 M6
 
-路径：`Entities/_Common/`
+路径：`Scripts/Core/Common/`
 
 | 子系统 | 脚本路径范围 | 职能 |
 |---|---|---|
@@ -218,17 +218,17 @@
 
 ## 8. 回放模块 M7
 
-路径：`Entities/_RePlay/`
+路径：`Scripts/Core/Replay/`
 
 | 脚本 | 职能 |
 |---|---|
-| `Base/LocalInstance.cs` | 本地模式标记组件 |
-| `Base/PlayerInputCommand.cs` | 输入指令类型枚举 |
-| `NewReplay/ReplaySchema.cs` | `ReplayCommandElement`（指令缓冲）与 `ReplaySystemState`（录制/回放状态） |
-| `NewReplay/RequestCommandRpcSystem.cs` | 发送输入 RPC 并顺带录制回放指令 |
-| `NewReplay/CommandReplayingSystem.cs` | 回放执行：清场、重置流场、按时间戳用 ECB 重放指令 |
-| `NewReplay/ReplayAuthoring.cs` | 回放系统 Authoring |
-| `NewReplay/RTSUnitSpawner.cs` | 回放单位生成器 |
+| `Foundation/LocalInstance.cs` | 本地模式标记组件 |
+| `Foundation/PlayerInputCommand.cs` | 输入指令类型枚举 |
+| `Runtime/ReplaySchema.cs` | `ReplayCommandElement`（指令缓冲）与 `ReplaySystemState`（录制/回放状态） |
+| `Runtime/RequestCommandRpcSystem.cs` | 发送输入 RPC 并顺带录制回放指令 |
+| `Runtime/CommandReplayingSystem.cs` | 回放执行：清场、重置流场、按时间戳用 ECB 重放指令 |
+| `Runtime/ReplayAuthoring.cs` | 回放系统 Authoring |
+| `Runtime/RTSUnitSpawner.cs` | 回放单位生成器 |
 
 ---
 

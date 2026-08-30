@@ -88,3 +88,30 @@ crashlytics-build.properties
 
 # 本地演示媒体：README 不再展示，文件保留在磁盘但不入库
 .github/assets/
+
+# 本地保留模块：仅本地工作区使用，不纳入版本控制
+/Scripts/Networking/
+/Scripts/Core/Movement/MoveOrderReceiveSystem.cs
+/Scripts/Core/Movement/MoveOrderReceiveSystem.cs.meta
+/Scripts/Core/Movement/NetCodeUnitFlowMovementSystem.cs
+/Scripts/Core/Movement/NetCodeUnitFlowMovementSystem.cs.meta
+/Scripts/Core/Units/Components/UnitRpcs.cs
+/Scripts/Core/Units/Components/UnitRpcs.cs.meta
+/Scripts/Core/Units/Systems/Initialization/UnitCreateInServerSystem.cs
+/Scripts/Core/Units/Systems/Initialization/UnitCreateInServerSystem.cs.meta
+/Scripts/Core/Common/SpawnEntityRpc/
+/Scripts/Core/Common/SpawnEntityRpc.meta
+/Scripts/Core/Replay/Runtime/RequestCommandRpcSystem.cs
+/Scripts/Core/Replay/Runtime/RequestCommandRpcSystem.cs.meta
+/Scripts/Core/Replay/Runtime/RTSUnitSpawner.cs
+/Scripts/Core/Replay/Runtime/RTSUnitSpawner.cs.meta
+/Scripts/Core/Replay/Runtime/CommandReplayingSystem.cs
+/Scripts/Core/Replay/Runtime/CommandReplayingSystem.cs.meta
+/Scripts/Core/Common/Json/JsonConverter.cs
+/Scripts/Core/Common/Json/JsonConverter.cs.meta
+/Scripts/Core/Common/ClientHelpSystem.cs
+/Scripts/Core/Common/ClientHelpSystem.cs.meta
+/Scripts/Framework/UISystem/BasicBuildUIController.cs
+/Scripts/Framework/UISystem/BasicBuildUIController.cs.meta
+/Scripts/Core/Movement/Editor/LocalGameplayModeValidation.cs
+/Scripts/Core/Movement/Editor/LocalGameplayModeValidation.cs.meta

@@ -234,7 +234,7 @@
 
 ## 9. 网络模块 M8
 
-路径：`NetWorkInitialize/`
+路径：`Scripts/Networking/`
 
 | 分区 | 脚本路径范围 | 职能 |
 |---|---|---|
@@ -247,29 +247,31 @@
 
 ## 10. 输入模块 M9
 
-路径：`_PlayerInput/`
+路径：`Scripts/Input/`
 
 | 脚本 | 职能 |
 |---|---|
 | `UnitControl/UnitMoveInputSystem.cs` | 右键射线 → 选中单位快照 → `MoveOrder` + RPC 发送 |
 | `InputStateSwitchSystem.cs` | 输入状态切换 |
-| `_Events/EnterControlStateEvent.cs`、`_Events/EnterBuildingStateEvent.cs` | 控制/建造状态切换事件 |
+| `Events/EnterControlStateEvent.cs`、`Events/EnterBuildingStateEvent.cs` | 控制/建造状态切换事件 |
 
 ---
 
 ## 11. 框架模块 M10
 
-路径：`_QFrameWork/`
+路径：`Scripts/Framework/`
 
 | 分区 | 脚本路径范围 | 职能 |
 |---|---|---|
 | BuildingManagement | `BuildingManagement/Base/`、`Buildings/`、`Commands/`、`Services/`、`Utils/`、`_Controllers/` | 建造数据模型、建筑实现、建造命令、网格管理、建造工具与服务 |
 | UISystem | `UISystem/EcoUI/`、`UISystem/MapUI/`、`UISystem/HpUI/`、`UISystem/Editor/`、`UISystem/BasicBuildUIController.cs`、`UISystem/CameraController.cs`、`UISystem/RTSSelectionManager.cs` | 经济 UI、地图 UI、血条 UI、相机控制、RTS 选择管理 |
-| _CommonUtils | `_CommonUtils/CoroutineManager.cs` | 协程管理器 |
+| CommonUtils | `CommonUtils/CoroutineManager.cs` | 协程管理器 |
 
 ---
 
-## 12. 根目录脚本与工具 M11
+## 12. 入口脚本与工具 M11
+
+路径：`Scripts/Entry/`、`Scripts/Utilities/`
 
 | 脚本 | 职能 |
 |---|---|
@@ -277,7 +279,7 @@
 | `SystemServiceLocator.cs` | ECS System 服务定位器（`ISystemService` + `ServiceSystemBase<T>`） |
 | `ServerObjectSystem.cs` | MonoBehaviour 服务定位器（`ServiceObject<T>` + `IService`） |
 | `FpsDisplay.cs` | 帧率显示 |
-| `Utils/DebugSystem.cs` | 日志系统 |
+| `Scripts/Utilities/DebugSystem.cs` | 日志系统 |
 
 ---
 
@@ -293,7 +295,7 @@
 | `scripts/validate_contact_static_contracts.py` | 步身份不可从缓存推导、Oracle 不写游戏状态 |
 | `workflows/*.yml` | 三条 CI 工作流 |
 
-根目录 `analyze_contact_diagnostic_trends.py` 用于接触诊断 CSV 趋势分析。
+`Tools/Analysis/analyze_contact_diagnostic_trends.py` 用于接触诊断 CSV 趋势分析。
 
 ---
 

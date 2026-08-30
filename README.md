@@ -69,7 +69,7 @@
 
 ## 2. 核心群体模拟模块 M1
 
-路径范围：`Entities/Unit/Systems/FlowField/`
+路径范围：`Scripts/Core/Movement/`
 
 这是整个项目的核心，按职责分为 6 个分区：
 
@@ -101,7 +101,7 @@
 
 ### 2.4 每帧移动 Jobs
 
-路径：`Jobs/`
+路径：`Scripts/Core/Movement/Jobs/`
 
 | 脚本 | 职能 |
 |---|---|
@@ -111,9 +111,9 @@
 | `ApplyFlowMovementJob.cs` | 把求解结果写回 `LocalTransform` / `Velocity` |
 | `BuildCrowdBodyResultsJob.cs` | 从子步状态构建最终写回结果（含速度重建语义） |
 
-### 2.5 接触管线（Runtime/ContactPipeline）
+### 2.5 接触管线（Pipeline）
 
-路径：`Runtime/ContactPipeline/`，完整分层说明见其下的 `ARCHITECTURE.md`。
+路径：`Scripts/Core/Movement/Pipeline/`，完整分层说明见本地保存的 `ARCHITECTURE.md`（未纳入版本控制）。
 
 | 分区 | 脚本路径范围 | 职能 |
 |---|---|---|
@@ -130,7 +130,7 @@
 
 ### 2.6 诊断与实验（Diagnostics / Editor）
 
-路径：`Diagnostics/`、`Editor/`
+路径：`Scripts/Core/Movement/Diagnostics/`、`Scripts/Core/Movement/Editor/`
 
 | 分区 | 脚本路径范围 | 职能 |
 |---|---|---|

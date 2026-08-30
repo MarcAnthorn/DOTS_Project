@@ -23,16 +23,13 @@
 | M4 | `Scripts/Core/Buildings/` | 建筑组件、建筑类型与 Authoring | [§5](#5-建筑模块-m4) |
 | M5 | `Scripts/Core/Cameras/` | 主相机组件与初始化 | [§6](#6-相机模块-m5) |
 | M6 | `Scripts/Core/Common/` | 通用玩法系统：攻击、伤害、销毁、追踪、技能移动 | [§7](#7-通用玩法系统-m6) |
-| M7 | `Scripts/Core/Replay/` | 回放指令与状态数据契约、Authoring（执行逻辑仅本地保留） | [§8](#8-回放模块-m7) |
+| M7 | `Scripts/Core/Replay/` | 回放指令与状态数据契约、Authoring | [§8](#8-回放模块-m7) |
 | M8 | `Scripts/Input/` | 输入状态机与右键移动指令 | [§9](#9-输入模块-m8) |
 | M9 | `Scripts/Framework/` | QFramework 风格 UI/建造/经济框架 | [§10](#10-框架模块-m9) |
 | M10 | `Scripts/Entry/` + `Scripts/Utilities/` | 架构入口、服务定位器、调试工具 | [§11](#11-入口脚本与工具-m10) |
 | M11 | `.github/` + `Tools/Analysis/` | CI 静态合约与基准分析 | [§12](#12-ci-与工具链-m11) |
-| M12 | 根目录本地文档 | 实验计划、交接文档、技术概念手册（仅本地保存） | [§13](#13-本地文档索引) |
 
-**技术架构与核心机制**：[§14 技术架构](#14-技术架构) ｜ [§15 性能数据](#15-性能数据) ｜ [§16 诊断工具](#16-诊断工具) ｜ [§17 CI 静态合约](#17-ci-静态合约) ｜ [§18 已知限制](#18-已知限制)
-
-> 概念速查：ECS / 流场 / 增量接触 / XPBD / 证书 / 组合根等概念的详解手册仅保存在本地工作区，未纳入版本控制（见 §13）。
+**技术架构与核心机制**：[§13 技术架构](#13-技术架构) ｜ [§14 性能数据](#14-性能数据) ｜ [§15 诊断工具](#15-诊断工具) ｜ [§16 CI 静态合约](#16-ci-静态合约) ｜ [§17 已知限制](#17-已知限制)
 
 ---
 
@@ -57,7 +54,7 @@
 │   └── Entry/                 # 架构入口、服务定位器与帧率显示
 ├── Tools/Analysis/            # 诊断 CSV 趋势分析脚本
 ├── .github/                   # CI 静态合约脚本与工作流
-└── README.md                  # 项目总入口（其余 *.md 仅本地保存）
+└── README.md                  # 项目总入口
 ```
 
 ---
@@ -106,7 +103,7 @@
 
 ### 2.5 接触管线（Pipeline）
 
-路径：`Scripts/Core/Movement/Pipeline/`，完整分层说明见本地保存的 `ARCHITECTURE.md`（未纳入版本控制）。
+路径：`Scripts/Core/Movement/Pipeline/`，按 Contracts / State / Kernels / Scheduling / Stages / Observability 六层组织。
 
 | 分区 | 脚本路径范围 | 职能 |
 |---|---|---|
@@ -273,27 +270,7 @@
 
 ---
 
-## 13. 本地文档索引
-
-以下技术文档仅保存在本地工作区，未纳入版本控制；其内容随源码重构同步更新：
-
-| 本地文档 | 内容 |
-|---|---|
-| `TECHNICAL_CONCEPTS_GUIDE.md` | 全部技术概念从零详解（概念 → 为什么 → 项目落地） |
-| `Scripts/Core/Movement/Pipeline/ARCHITECTURE.md` | 接触管线架构与不变式 |
-| `Scripts/Core/Movement/Pipeline/DEBT.md` | 已知技术债 |
-| `Scripts/Core/Movement/Diagnostics/README.md` | 诊断工具说明 |
-| `Scripts/Core/Movement/Diagnostics/VERIFICATION_MATRIX.md` | 验证矩阵 |
-| `DYNAMIC_CONTACT_FRAMEWORK_EXPERIMENT_PLAN.md` | 动态接触框架实验计划 |
-| `FAT_AABB_CACHE_TASK_HANDOFF.md` | Fat AABB 缓存任务交接 |
-| `INCREMENTAL_PREDICTIVE_CONTACT_PIPELINE.md` | 增量预测接触管线设计 |
-| `INCREMENTAL_PREDICTIVE_CONTACT_BENCHMARK.md` | 增量接触基准方法 |
-| `SIMULATION_DEBUGGER_USAGE.md` | 模拟调试器使用说明 |
-| `SIMULATION_DEBUGGER_REWORK_PLAN.md` | 模拟调试器重构计划 |
-
----
-
-## 14. 技术架构
+## 13. 技术架构
 
 ### 数据流
 
@@ -330,7 +307,7 @@ BaseFlowMovementSystem（组合根，每帧）
 
 ---
 
-## 15. 性能数据
+## 14. 性能数据
 
 **1k 单位 — Substep 缓存关闭 / 开启对比：**
 
@@ -345,11 +322,9 @@ BaseFlowMovementSystem（组合根，每帧）
 
 性能提升并非通过减少接触约束换取：平均接触 Pair 从 **596** 增至 **721**，平均活跃 Pair 从 **543** 增至 **672**。
 
-**5k 单位同屏运行：** 演示动画仅保存在本地，不纳入版本控制。
-
 ---
 
-## 16. 诊断工具
+## 15. 诊断工具
 
 | 工具 | 入口 | 功能 |
 |------|------|------|
@@ -364,7 +339,7 @@ BaseFlowMovementSystem（组合根，每帧）
 
 ---
 
-## 17. CI 静态合约
+## 16. CI 静态合约
 
 `.github/workflows/` 三条工作流在每次 push 时执行四份静态检查：
 
@@ -379,7 +354,7 @@ CI 不替代 Unity Editor 编译、Burst 编译、Collections Safety 和运行�
 
 ---
 
-## 18. 已知限制
+## 17. 已知限制
 
 - Contact Island 休眠未实现——持续活跃接触始终参与求解；
 - Gauss-Seidel 无并行路径（需图着色或冲突无关批次）；
